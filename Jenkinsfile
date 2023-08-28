@@ -4,7 +4,7 @@ pipeline {
         stage('Build Maven') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Fzshaik829793/Test']]])
-                sh '/root/apache-maven-3.9.4/mvn clean install''
+                sh '/root/apache-maven-3.9.4/bin/mvn clean install''
             }
         }
         stage('Build Docker Image') {

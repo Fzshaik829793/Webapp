@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImageName = "fzshaik8297/devops-integration:v5.0.1"
+                    def dockerImageName = "fzshaik8297/devops-integration:v6.0.1"
                     sh "sudo docker build -t ${dockerImageName} ."
                     env.DOCKER_IMAGE_NAME = dockerImageName
                 }
@@ -34,7 +34,7 @@ pipeline {
                     withCredentials([file(credentialsId: 'fayaz-kube-id', variable: 'kubeconfigPath')]) {
                         env.PATH = "/usr/local/bin:${env.PATH}"
                         env.KUBECONFIG = kubeconfigPath
-                        sh "helm upgrade --install fayaz-app ~/fayaz --set image.repository=${env.DOCKER_IMAGE_NAME}"
+                        sh "helm upgrade --install fayaz-app ~/fayaz --set image.repository=fzshaik8297/devops-integration"
                     }
                 }
             }

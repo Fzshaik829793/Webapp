@@ -13,7 +13,7 @@ pipeline {
                 script {
                     def gitCommitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                     def dockerImageName = "fzshaik8297:${gitCommitId}"
-                    sh "docker build -t ${dockerImageName} ."
+                    sh "sudo docker build -t ${dockerImageName} ."
                     env.DOCKER_IMAGE_NAME = dockerImageName
                 }
             }
@@ -22,8 +22,8 @@ pipeline {
             steps {
                 script {
                     withCredentials([string(credentialsId: 'fayaz-docker-id', variable: 'dockerhubpwd')]) {
-                        sh "docker login -u fzshaik8297 -p ${dockerhubpwd}"
-                        sh "docker push ${env.DOCKER_IMAGE_NAME}"
+                        sh "sudo docker login -u fzshaik8297 -p ${dockerhubpwd}"
+                        sh "sudo docker push ${env.DOCKER_IMAGE_NAME}"
                     }
                 }
             }

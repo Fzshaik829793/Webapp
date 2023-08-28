@@ -4,7 +4,7 @@ pipeline {
         stage('Build Maven') {
             steps {
                 checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Fzshaik829793/Test']]])
-                sh 'mvn clean install'
+                sh '/root/apache-maven-3.9.4/mvn clean install''
             }
         }
         stage('Build Docker Image') {
@@ -30,7 +30,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    def kubeconfigPath = '/root/kubeconfig/config'
+                    def kubeconfigPath = 'path/to/your/kubeconfig/file'
                     withCredentials([file(credentialsId: 'fayaz-kube-id', variable: kubeconfigPath)]) {
                         sh "helm upgrade --install fayaz-app ./fayaz"
                         sh "--set image.repository=${env.DOCKER_IMAGE_NAME}"

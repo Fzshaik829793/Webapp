@@ -13,6 +13,8 @@ pipeline {
                 script {
                     def gitCommitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                     def dockerImageName = "fzshaik8297/devops-integration:${gitCommitId}"
+                    def valuesYamlPath = '/var/lib/jenkins/fayaz/values.yaml'
+                    sh "sed -i 's/{{ .Values.imageTagPlaceholder }}/${gitCommitId}/g' ${valuesYamlPath}"
                     sh "sudo docker build -t ${dockerImageName} ."
                     env.DOCKER_IMAGE_NAME = dockerImageName
                 }

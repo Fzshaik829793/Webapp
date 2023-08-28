@@ -1,0 +1,9 @@
+replicaCount: 1
+image:
+  repository: fzshaik8297/test
+  tag: latest
+  pullPolicy: IfNotPresent
+containerPort: 8080
+servicePort: 8080
+serviceType: NodePort
+

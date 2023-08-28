@@ -1,37 +1,43 @@
 pipeline {
     agent any
-    tools{
-        maven 'maven_3_5_0'
+    tools {
+        maven 'maven_3_9_4'
     }
-    stages{
-        stage('Build Maven'){
-            steps{
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Java-Techie-jt/devops-automation']]])
+    stages {
+        stage('Build Maven') {
+            steps {
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Fzshaik829793/Test']]])
                 sh 'mvn clean install'
             }
         }
-        stage('Build docker image'){
-            steps{
-                script{
-                    sh 'docker build -t javatechie/devops-integration .'
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    def gitCommitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
+                    def dockerImageName = "fzshaik8297:${gitCommitId}"
+                    sh "docker build -t ${dockerImageName} ."
+                    env.DOCKER_IMAGE_NAME = dockerImageName
                 }
             }
         }
-        stage('Push image to Hub'){
-            steps{
-                script{
-                   withCredentials([string(credentialsId: 'dockerhub-pwd', variable: 'dockerhubpwd')]) {
-                   sh 'docker login -u javatechie -p ${dockerhubpwd}'
-
-}
-                   sh 'docker push javatechie/devops-integration'
+        stage('Push Image to Hub') {
+            steps {
+                script {
+                    withCredentials([string(credentialsId: 'fayaz-docker-id', variable: 'dockerhubpwd')]) {
+                        sh "docker login -u fzshaik8297 -p ${dockerhubpwd}"
+                        sh "docker push ${env.DOCKER_IMAGE_NAME}"
+                    }
                 }
             }
         }
-        stage('Deploy to k8s'){
-            steps{
-                script{
-                    kubernetesDeploy (configs: 'deploymentservice.yaml',kubeconfigId: 'k8sconfigpwd')
+        stage('Deploy to Kubernetes') {
+            steps {
+                script {
+                    def kubeconfigPath = '/root/kubeconfig/config'
+                    withCredentials([file(credentialsId: 'fayaz-kube-id', variable: kubeconfigPath)]) {
+                        sh "helm upgrade --install fayaz-app ./fayaz"
+                        sh "--set image.repository=${env.DOCKER_IMAGE_NAME}"
+                    }
                 }
             }
         }

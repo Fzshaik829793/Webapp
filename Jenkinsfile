@@ -11,7 +11,6 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def gitCommitId = sh(script: 'git rev-parse --short HEAD', returnStdout: true).trim()
                     def dockerImageName = "fzshaik8297/devops-integration:v1.0.1
                     sh "sudo docker build -t ${dockerImageName} ."
                     env.DOCKER_IMAGE_NAME = dockerImageName

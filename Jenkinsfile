@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy to Kubernetes') {
             steps {
                 script {
-                    def kubeconfigPath = '/root/kubeconfig/config'
+                    def kubeconfigPath = '/var/lib/jenkins/.kube/config'
                     withCredentials([file(credentialsId: 'fayaz-kube-id', variable: 'kubeconfigPath')]) {
                         env.PATH = "/usr/local/bin:${env.PATH}"
                         env.KUBECONFIG = kubeconfigPath

@@ -1,9 +1,15 @@
 replicaCount: 1
-image:
-  repository: fzshaik8297/test
-  tag: latest
-  pullPolicy: IfNotPresent
-containerPort: 8080
-servicePort: 8080
-serviceType: NodePort
 
+image:
+  repository: fzshaik8297/Webapp
+  pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: ""
+
+service:
+  type: NodePort
+  port: 8080
+  targetport: 8080
+
+container:
+  name: fayaz

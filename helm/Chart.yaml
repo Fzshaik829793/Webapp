@@ -2,4 +2,6 @@ apiVersion: v2
 name: fayaz
 description: A Helm chart for deploying Spring Boot application
 version: 0.1.0
+appVersion: "1.16.0"
+type: application
 

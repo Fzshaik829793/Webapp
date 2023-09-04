@@ -3,7 +3,7 @@ pipeline {
     stages {
         stage('Build Maven') {
             steps {
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Fzshaik829793/Test']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*/main']], extensions: [], userRemoteConfigs: [[url: 'https://github.com/Fzshaik829793/Webapp']]])
                 sh '/var/lib/jenkins/maven/bin/mvn clean install'
 
             }
@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImageName = "fzshaik8297/devops-integration:v7.7.1"
+                    def dockerImageName = "fzshaik8297/devops-integration:v8.8.8"
                     sh "sudo docker build -t ${dockerImageName} ."
                     env.DOCKER_IMAGE_NAME = dockerImageName
                 }

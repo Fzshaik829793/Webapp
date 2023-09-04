@@ -12,7 +12,7 @@ pipeline {
             steps {
                 script {
                     def dockerImageName = "fzshaik8297/devops-integration:v8.8.8"
-                    sh "sudo docker build -t ${dockerImageName} ."
+                    sh "docker build -t ${dockerImageName} ."
                     env.DOCKER_IMAGE_NAME = dockerImageName
                 }
             }

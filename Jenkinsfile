@@ -31,7 +31,7 @@ pipeline {
             steps {
                 script {
                     def kubeconfigPath = '/var/lib/jenkins/.kube/config'
-                    withCredentials([file(credentialsId: 'fayaz-kube-id', variable: 'kubeconfigPath')]) {
+                     {
                         env.PATH = "/usr/local/bin:${env.PATH}"
                         env.KUBECONFIG = kubeconfigPath
                         sh "helm upgrade --install fayaz-app ~/fayaz --set image.repository=fzshaik8297/devops-integration"

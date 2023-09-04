@@ -11,7 +11,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    def dockerImageName = "fzshaik8297/devops-integration:v8.8.8"
+                    def dockerImageName = "fzshaik8297/devops-integration:v9.9.9"
                     sh "docker build -t ${dockerImageName} ."
                     env.DOCKER_IMAGE_NAME = dockerImageName
                 }
